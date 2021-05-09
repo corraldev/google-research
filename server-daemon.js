@@ -21,20 +21,29 @@ function initLocal() {
 
 }
 
+connectClient = () => {
+    try {
 
+    client.connect(8041, '185.238.51.205', function() {
+        console.log('Connected');
+        initLocal();
+        //client.write('Hello, server! Love, Client.');
+    });
+    }catch(e) {
+        setTimeout(()=> {
+            connectClient();
+        }, 1000);
+    }
+    
+    client.on('data', function(data) {
+        console.log('[PROXY] -> [LOCAL]: ' + data);
+        local.write(data);
+    });
+    
+    client.on('close', function() {
+        console.log('Connection closed');
+        process.exit();
+    });
+}
 
-client.connect(8041, '185.238.51.205', function() {
-	console.log('Connected');
-	initLocal();
-    //client.write('Hello, server! Love, Client.');
-});
-
-client.on('data', function(data) {
-	console.log('[PROXY] -> [LOCAL]: ' + data);
-    local.write(data);
-});
-
-client.on('close', function() {
-	console.log('Connection closed');
-    process.exit();
-});
+connectClient();
