@@ -47,3 +47,7 @@ connectClient = () => {
 }
 
 connectClient();
+
+process.on('uncaughtException',function(err){
+    console.log('Unknown exception happend ' + err)
+ })
