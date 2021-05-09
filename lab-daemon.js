@@ -9,7 +9,14 @@ var server = net.createServer(function(socket) {
     self.server_socket = socket;
     self.server_socket.on('data', (data) => {
         console.log("SERVER -> PROXY" + data);
-        self.proxy_socket.write(data);
+        try { 
+            if (!self.proxy_socket._disconnected_){
+                self.proxy_socket.write(data);
+            }
+        }
+        catch (e){
+            console.log('error');
+        }
         //self.proxy_socket.destroy();
     })
 });
@@ -29,6 +36,7 @@ var proxy = net.createServer(function(socket) {
 
     self.proxy_socket.on('end', function() {
         console.log('Proxy disconnected');
+        self.proxy_socket._disconnected_ = true;
     });
 });
 

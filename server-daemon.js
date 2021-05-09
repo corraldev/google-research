@@ -14,13 +14,8 @@ function initLocal() {
         //local.destroy();
     });
     
-    local.on('close', function(data){
-        local.destroy();
-        initLocal();
-    });
 
     local.on('end', function(data){
-        local.destroy();
         initLocal();
     });
 
