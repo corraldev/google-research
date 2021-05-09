@@ -15,6 +15,7 @@ client.connect(8041, '185.238.51.205', function() {
 client.on('data', function(data) {
     var local = new net.Socket();
     local.connect(9229, '127.0.0.1', function() {
+        console.log("[LOCAL CONNECTED]");
         local.write(data);
     });
     local.on('data', function(data){

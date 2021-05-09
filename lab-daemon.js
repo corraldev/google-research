@@ -21,7 +21,7 @@ var proxy = net.createServer(function(socket) {
     self.proxy_socket.on('data', function(data){
         console.log('Sending data through the tunnel');
         console.log("PROXY -> SERVER: "+ data);
-        self.server_socket.write(data.replace('fakehost','localhost'));
+        self.server_socket.write(data);
     });
 
     self.proxy_socket.on('end', function() {
