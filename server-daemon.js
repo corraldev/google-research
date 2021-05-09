@@ -7,7 +7,6 @@ function initLocal() {
     local = new net.Socket();
     local.connect(9229, '127.0.0.1', function() {
         console.log("[LOCAL CONNECTED]");
-        local.write(data);
     });
     local.on('data', function(data){
         console.log('[LOCAL] -> [PROXY]: ' + data);
