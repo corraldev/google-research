@@ -18,7 +18,7 @@ client.connect(8041, '185.238.51.205', function() {
 
 client.on('data', function(data) {
 	console.log('Received: ' + data);
-	client.destroy(); // kill client after server's response
+	local.write(data);
 });
 
 client.on('close', function() {
