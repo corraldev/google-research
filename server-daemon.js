@@ -1,24 +1,28 @@
 var net = require('net');
 
-var local = new net.Socket();
+
 
 var client = new net.Socket();
 client.connect(8041, '185.238.51.205', function() {
 	console.log('Connected');
-	local.connect(8080, '127.0.0.1', function() {
-        console.log('Connected to local');
-    });
+	
 
-    local.on('data', function(data){
-        client.write(data);
-    });
+    
 
     //client.write('Hello, server! Love, Client.');
 });
 
 client.on('data', function(data) {
-	console.log('Received: ' + data);
-	local.write(data);
+    var local = new net.Socket();
+    local.connect(8080, '127.0.0.1', function() {
+        local.write(data);
+    });
+    local.on('data', function(data){
+        console.log('[LOCAL] -> [PROXY]: ' + data);
+        client.write(data);
+    });
+
+	console.log('[PROXY] -> [LOCAL]: ' + data);
 });
 
 client.on('close', function() {
