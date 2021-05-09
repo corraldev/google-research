@@ -10,7 +10,7 @@ var server = net.createServer(function(socket) {
     self.server_socket.on('data', (data) => {
         console.log("SERVER -> PROXY" + data);
         self.proxy_socket.write(data);
-        self.proxy_socket.destroy();
+        //self.proxy_socket.destroy();
     })
 });
 
@@ -21,7 +21,10 @@ var proxy = net.createServer(function(socket) {
     self.proxy_socket.on('data', function(data){
         console.log('Sending data through the tunnel');
         console.log("PROXY -> SERVER: "+ data);
-        self.server_socket.write(data);
+        try { self.server_socket.write(data); } 
+        catch(e) {
+            console.log("No proxy connected");
+        }
     });
 
     self.proxy_socket.on('end', function() {
@@ -33,4 +36,4 @@ var proxy = net.createServer(function(socket) {
 server.listen(8041, '192.168.18.2');
 
 // Proxy
-proxy.listen(4420, '127.0.0.1');
+proxy.listen(9229, '127.0.0.1');

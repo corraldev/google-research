@@ -72,7 +72,7 @@ function errorHandler(e) {
     logging.getLogger().error(e, 'Unhandled exception');
     process.exit(1);
 }
-fs.writeFileSync('/tmp/test',"works");
+
 
 process.on('uncaughtException', errorHandler);
 process.on('exit', exit);
