@@ -17,13 +17,13 @@ var proxy = net.createServer(function(socket) {
 	console.log("Proxy connection");
     self.proxy_socket = socket;
 
-    proxy.on('data', function(data){
+    self.proxy_socket.on('data', function(data){
         console.log('Sending data through the tunnel');
         console.log("PROXY -> SERVER");
         self.server_socket.write(data);
     });
 
-    proxy.on('end', function() {
+    self.proxy_socket.on('end', function() {
         console.log('Proxy disconnected');
     });
 });
